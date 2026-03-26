@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tea/Coffee Manager - Track Office Beverages Effortlessly</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #FAF7F0;
+            --coffee-dark: #2C1810;
+            --coffee-medium: #6B4423;
+            --tea-green: #8B9D83;
+            --accent-warm: #D4A574;
+            --shadow: rgba(44, 24, 16, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--coffee-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 20px;
+            position: relative;
+            background: linear-gradient(135deg, var(--cream) 0%, #F5EDE0 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(139, 157, 131, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-20px, 20px) rotate(5deg); }
+            50% { transform: translate(0, 40px) rotate(0deg); }
+            75% { transform: translate(20px, 20px) rotate(-5deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--tea-green);
+            color: white;
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: var(--coffee-dark);
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .highlight {
+            color: var(--coffee-medium);
+            position: relative;
+            display: inline-block;
+        }
+
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            width: 100%;
+            height: 12px;
+            background: var(--accent-warm);
+            opacity: 0.3;
+            z-index: -1;
+            transform: skewY(-2deg);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: var(--coffee-medium);
+            margin-bottom: 40px;
+            max-width: 600px;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--coffee-dark);
+            color: white;
+            padding: 18px 36px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px var(--shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px var(--shadow);
+            background: var(--coffee-medium);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            color: var(--coffee-dark);
+            padding: 18px 36px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--coffee-dark);
+        }
+
+        .btn-secondary:hover {
+            background: var(--coffee-dark);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .features {
+            padding: 100px 20px;
+            background: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            padding: 40px;
+            background: var(--cream);
+            border-radius: 24px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--coffee-medium), var(--tea-green));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px var(--shadow);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+            color: var(--coffee-dark);
+        }
+
+        .feature-card p {
+            color: var(--coffee-medium);
+            line-height: 1.7;
+        }
+
+        .section-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--coffee-dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--coffee-medium);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .problem-solution {
+            padding: 100px 20px;
+            background: linear-gradient(180deg, var(--cream) 0%, white 100%);
+        }
+
+        .ps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px;
+            margin-top: 60px;
+            align-items: start;
+        }
+
+        .problem-box, .solution-box {
+            padding: 50px;
+            border-radius: 24px;
+        }
+
+        .problem-box {
+            background: linear-gradient(135deg, #FFE5E5 0%, #FFD4D4 100%);
+            border-left: 6px solid #D32F2F;
+        }
+
+        .solution-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            border-left: 6px solid #388E3C;
+        }
+
+        .problem-box h3, .solution-box h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2rem;
+            margin-bottom: 24px;
+        }
+
+        .problem-box ul, .solution-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .problem-box li, .solution-box li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 1.05rem;
+        }
+
+        .problem-box li::before {
+            content: '✗';
+            position: absolute;
+            left: 0;
+            color: #D32F2F;
+            font-weight: bold;
+        }
+
+        .solution-box li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #388E3C;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .final-cta {
+            padding: 100px 20px;
+            background: var(--coffee-dark);
+            color: white;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 24px;
+        }
+
+        .final-cta p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .final-cta .btn-primary {
+            background: var(--accent-warm);
+            color: var(--coffee-dark);
+            font-size: 1.2rem;
+            padding: 20px 48px;
+        }
+
+        .final-cta .btn-primary:hover {
+            background: white;
+            transform: translateY(-4px) scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .cta-group {
+                flex-direction: column;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .features, .problem-solution, .final-cta {
+                padding: 60px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="container">
+            <div class="badge">☕ Simple Solution for Office Beverages</div>
+            <h1>Stop Losing Track of <span class="highlight">Chai & Coffee</span> in Your Office</h1>
+            <p class="subtitle">The simple app that brings clarity to your office beverage management. No more confusion, no more disputes – just smooth tracking.</p>
+            <div class="cta-group">
+                <a href="https://play.google.com/store/apps/details?id=com.teacoffeemanager" class="btn-primary">
+                    <span>📱</span>
+                    Download Now - It's Free
+                </a>
+                <a href="#features" class="btn-secondary">
+                    <span>✨</span>
+                    See How It Works
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="problem-solution">
+        <div class="container">
+            <h2 class="section-title">The Daily Office Struggle</h2>
+            <p class="section-subtitle">Every office faces the same beverage tracking chaos. Here's how we solved it.</p>
+            <div class="ps-grid">
+                <div class="problem-box">
+                    <h3>😤 The Problems</h3>
+                    <ul>
+                        <li>Who had how many cups? Nobody knows!</li>
+                        <li>Month-end calculations are a nightmare</li>
+                        <li>Arguments over chai/coffee counts</li>
+                        <li>Messy notebooks and lost papers</li>
+                        <li>Unfair cost distribution</li>
+                    </ul>
+                </div>
+                <div class="solution-box">
+                    <h3>😊 The Solutions</h3>
+                    <ul>
+                        <li>Track every cup with one tap</li>
+                        <li>Automatic calculations and reports</li>
+                        <li>Complete transparency for everyone</li>
+                        <li>Digital records, always accessible</li>
+                        <li>Fair, accurate billing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Everything You Need, Nothing You Don't</h2>
+            <p class="section-subtitle">Designed for real office environments with real needs</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">⚡</span>
+                    <h3>Lightning Fast</h3>
+                    <p>Add a cup in under 2 seconds. No complicated forms or endless tapping. Just quick, efficient tracking.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">👥</span>
+                    <h3>Multi-User Ready</h3>
+                    <p>Perfect for teams of any size. Track consumption for the entire office without breaking a sweat.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📊</span>
+                    <h3>Smart Reports</h3>
+                    <p>Get instant insights on who consumed what. Monthly summaries, individual reports – all automated.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">💰</span>
+                    <h3>Cost Calculation</h3>
+                    <p>Set your chai/coffee prices and let the app calculate everyone's bill. No more manual math errors.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔒</span>
+                    <h3>Secure & Private</h3>
+                    <p>Your office data stays yours. Simple, secure, and respects your privacy.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🎯</span>
+                    <h3>Zero Learning Curve</h3>
+                    <p>So simple, anyone can use it from day one. No training required, no manual to read.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="final-cta">
+        <div class="container">
+            <h2>Ready to Simplify Your Office Beverages?</h2>
+            <p>Join offices already saving time and avoiding disputes</p>
+            <a href="https://play.google.com/store/apps/details?id=com.teacoffeemanager" class="btn-primary">
+                Download Tea/Coffee Manager Now
+            </a>
+        </div>
+    </section>
+</body>
+</html>
